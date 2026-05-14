@@ -1,0 +1,15 @@
+services:
+
+  mysql:
+    image: mysql:8.4
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app_biblioteca
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: minhasenha
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
