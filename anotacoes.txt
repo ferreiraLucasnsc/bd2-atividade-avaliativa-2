@@ -1,0 +1,81 @@
+= ANOTAÇÕES =
+
+-> docker compose up -d
+[+] Running
+...
+
+...
+   ✔ eb33bcfe4506 Download complete                                                   9.1s 
+[+] Running 2/2
+ ✔ Network bd2-atividade-avaliativa-2_default  Created                                0.1s 
+ ✔ Container db                                Started                                5.2s
+
+-> cp .env-example .env
+cp: cannot stat '.env-example': No such file or directory
+
+-> cp .env.example .env
+Vazio, criação de novo arquivo
+
+-> composer update --no-cache
+Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 0 installs, 20 updates, 0 removals
+...
+
+...
+> @php artisan vendor:publish --tag=laravel-assets --ansi --force
+Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+
+   INFO  No publishable resources for tag [laravel-assets].  
+
+No security vulnerability advisories found.
+
+-> php artisan key:generate
+Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+
+   INFO  Application key set successfully.
+
+-> php artisan migrate
+Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+
+   WARN  The SQLite database configured for this application does not exist: laravel.  
+
+ ┌ Would you like to create it? ────────────────────────────────┐
+ │ Yes                                                          │
+ └──────────────────────────────────────────────────────────────┘
+
+   INFO  Preparing database.  
+
+  Creating migration table ................................................. 13.38ms DONE
+
+   INFO  Running migrations.  
+
+  0001_01_01_000000_create_users_table ..................................... 29.17ms DONE
+  0001_01_01_000001_create_cache_table ..................................... 78.74ms DONE
+  0001_01_01_000002_create_jobs_table ...................................... 28.41ms DONE
+  2026_05_06_230615_create_bibliotecas_table ............................... 10.16ms DONE
+  2026_05_06_230700_create_biblioteca_user_table ........................... 10.55ms DONE
+  2026_05_06_230800_create_pessoas_table .................................... 9.03ms DONE
+  2026_05_13_224916_create_autores_table .................................... 5.36ms DONE
+  2026_05_13_230132_add_column_to_autores_table ............................. 6.94ms DONE
+  2026_05_20_192439_create_biblioteca_pessoa_table .......................... 5.87ms DONE
+
+-> php artisan db:seed
+Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+
+   INFO  Seeding database.  
+
+  Database\Seeders\BibliotecaAdminSeeder ........................................ RUNNING  
+  Database\Seeders\BibliotecaAdminSeeder .................................... 588 ms DONE  
+
+  Database\Seeders\PessoaBibliotecaSeeder ....................................... RUNNING  
+10 pessoas criadas e associadas a bibliotecas dinamicamente.
+  Database\Seeders\PessoaBibliotecaSeeder ................................. 3,006 ms DONE
+
+-> php artisan serve
+Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+
+   INFO  Server running on [http://127.0.0.1:8000].  
+
+  Press Ctrl+C to stop the server...
