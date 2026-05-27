@@ -26,6 +26,7 @@ RUN mv composer.phar /usr/local/bin/composer
 
 #mysql-client for feature/backup
 RUN apt-get install mysql-client -y --no-install-recommends
+RUN apt-get install git -y --no-install-recommends
 
 #start
 WORKDIR /app

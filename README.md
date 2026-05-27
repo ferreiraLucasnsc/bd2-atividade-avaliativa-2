@@ -18,19 +18,23 @@ docker compose down
 
 ### Ver logs em tempo real
 ```
-docker compose logs -f app_laravel
+docker compose logs -f app
 ```
 
 ### Executar command no artisan
 ```
-docker compose exec app_laravel php artisan 
+docker compose exec app php artisan 
 <comando>
 ```
 Exemplos: 
 ```
-docker compose exec app_laravel php artisan migrate
+docker compose exec app php artisan migrate
 
-docker compose exec app_laravel php artisan migrate:rollback
+docker compose exec app php artisan migrate:rollback
+
+docker compose exec app php artisan db:seed
+
+docker compose exec app php artisan db:seed PessoaBibliotecaSeeder
 ```
 
 
