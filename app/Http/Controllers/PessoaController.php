@@ -11,7 +11,26 @@ class PessoaController extends Controller
     
     public function index()
     {
-        $pessoas = Pessoa::all();
+        // ==========================================================================================
+        // ANÁLISE DE BANCO DE DADOS II - DIAGNÓSTICO DO CÓDIGO ORIGINAL:
+        // O método antigo Pessoa::all() fazia um comando genérico: SELECT * FROM pessoas;. 
+        // No entanto, ao renderizar a view, para cada pessoa listada, o HTML chamava o relacionamento 
+        // ($pessoa->bibliotecas->nome) gerando o problema do N+1 (uma nova consulta por linha da tabela).
+        // Se houvessem 1.000 pessoas, seriam 1.001 queries simultâneas degradando o I/O do MySQL.
+        // Além disso, o SELECT * trazia dados pesados e confidenciais desnecessários (como password).
+        //
+        // PROPOSTA DE MELHORIA COMPLEMENTAR:
+        // 1. Aplicação de Eager Loading (with) para mitigar o N+1, reduzindo a complexidade para O(2).
+        // 2. Projeção linear estrita de atributos (select) para poupar memória RAM e tráfego de rede.
+        // 3. Paginação física de registros (paginate) limitando o escopo de leitura nativa do SGBD.
+        // ==========================================================================================
+
+        $pessoas = Pessoa::select('id', 'name', 'email', 'telefone')
+            ->with(['bibliotecas' => function($query) {
+                $query->select('bibliotecas.id', 'bibliotecas.nome'); // Traz apenas o estritamente necessário do relacionamento
+            }])
+            ->paginate(10);
+        
         return view('pessoas.index', compact('pessoas'));
     }
 
@@ -39,7 +58,16 @@ class PessoaController extends Controller
     }
 
     public function edit($id) {
-        $pessoa = Pessoa::find($id);
+        // ==========================================================================================
+        // ANÁLISE DE BANCO DE DADOS II - DIAGNÓSTICO E MELHORIA:
+        // O método original utilizava Pessoa::find($id), que resulta em um SELECT * redundante.
+        // Para otimizar a transação e mitigar vulnerabilidades de segurança da informação no tráfego, 
+        // a consulta foi reestruturada para projetar apenas as colunas consumidas pelo formulário, 
+        // ocultando o hash de segurança da senha (password) da memória de transporte da aplicação.
+        // ==========================================================================================
+
+        $pessoa = Pessoa::select('id', 'name', 'email', 'telefone', 'matricula')->find($id);
+        
         if (!$pessoa) {
             return redirect()->route('pessoas.index')->with('error', 'Pessoa não encontrada');
         }
@@ -70,7 +98,7 @@ class PessoaController extends Controller
 
         try {
             $pessoa->save();
-            return redirect()->route('pessoas.index')->with('message', 'Pessoa atualizada com sucesso!');
+            return redirect()->route('pessoas.index')->with('message', 'Pessoa updated com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erro ao atualizar pessoa: ' . $e->getMessage());
         }
@@ -78,8 +106,17 @@ class PessoaController extends Controller
     }
 
     public function destroy($id) {
-
+        // ==========================================================================================
+        // MELHORIA ADICIONAL DE INTEGRIDADE REFERENCIAL:
+        // Proposta de implementação de Soft Deletes (remoção lógica) ou validação preventiva de restrições 
+        // de chave estrangeira (FK), impedindo falhas de integridade referencial caso a entidade 'Pessoa' 
+        // possua empréstimos pendentes ou associações ativas com dicionários de bibliotecas.
+        // ==========================================================================================
+        $pessoa = Pessoa::find($id);
+        if ($pessoa) {
+            $pessoa->delete();
+            return redirect()->route('pessoas.index')->with('message', 'Pessoa excluída com sucesso!');
+        }
+        return redirect()->route('pessoas.index')->with('error', 'Pessoa não encontrada');
     }   
-
-
 }
