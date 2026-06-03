@@ -27,7 +27,7 @@ class PessoaController extends Controller
 
         $pessoas = Pessoa::select('id', 'name', 'email', 'telefone')
             ->with(['bibliotecas' => function($query) {
-                $query->select('bibliotecas.id', 'bibliotecas.nome'); // Traz apenas o estritamente necessário do relacionamento
+                $query->select('bibliotecas.id', 'bibliotecas.nome');
             }])
             ->paginate(10);
         
