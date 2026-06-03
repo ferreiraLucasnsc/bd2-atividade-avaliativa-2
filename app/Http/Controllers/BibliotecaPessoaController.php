@@ -27,7 +27,7 @@ class BibliotecaPessoaController extends Controller
             ->whereDoesntHave('bibliotecas', function ($query) use ($biblioteca) {
                 $query->where('biblioteca_id', $biblioteca->id);
             })
-            ->take(50) // MELHORIA: Limita a exibição inicial a 50 registros para poupar o buffer de rede do MySQL
+            ->take(50)
             ->get();
 
         return view('bibliotecas.add_pessoa', compact('biblioteca', 'pessoas'));
