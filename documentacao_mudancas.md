@@ -14,12 +14,32 @@ As alterações visaram mitigar três gargalos clássicos de infraestrutura em s
 ## Análise por Controlador
 
 ### 1. `PessoaController.php`
+* **Consulta Original:**
+  ```sql
+    public function index()
+        {
+            $pessoas = Pessoa::all();
+            return view('pessoas.index', compact('pessoas'));
+        }
+  ```
 * **Gargalo Original:** Uso de `Pessoa::all()` gerava um `SELECT *` implícito. Ao renderizar a view, o relacionamento com a tabela de bibliotecas disparava uma nova consulta por linha (Gargalo de I/O de rede $N+1$).
 * **Solução Implementada:** * Aplicação de **Eager Loading** com `with()` para carregar os relacionamentos em tempo constante $O(2)$.
   * **Projeção estrita** de colunas (`select('id', 'name', 'email', 'telefone')`), expurgando campos sensíveis como o hash de senhas (`password`) da memória de transporte.
   * **Paginação Física** com `paginate(10)` delegando as cláusulas `LIMIT` e `OFFSET` nativas ao SGBD.
 
 ### 2. `BibliotecasController.php`
+* **Consulta Original:**
+  ```sql
+    public function index(Request $request)
+        {
+    
+            $busca = $request->input('nome');
+    
+            $bibliotecas = Biblioteca::where('nome', 'like', '%' . $busca . '%')->get();
+    
+            return view('bibliotecas.index', ['bibliotecas' => $bibliotecas]);
+        }
+  ```
 * **Gargalo Original:** Buscas com o operador `LIKE` geravam strings redundantes (`LIKE '%%'`) quando o campo de busca estava vazio. Além disso, a falta de projeção forçava o tráfego de metadados pesados por meio do método `->get()`.
 * **Solução Implementada:**
   * Uso do método `filled()` para condicionar a execução da cláusula `LIKE` apenas quando houver entrada real de dados.
@@ -27,10 +47,29 @@ As alterações visaram mitigar três gargalos clássicos de infraestrutura em s
   * Paginação de registros integrada.
 
 ### 3. `BibliotecaPessoaController.php` (Tabela Associativa N:N)
+* **Consulta Original:**
+  ```sql
+    public function create(Biblioteca $biblioteca)
+        {
+            $pessoas = Pessoa::whereDoesntHave('bibliotecas', function ($query) use ($biblioteca) {
+                $query->where('biblioteca_id', $biblioteca->id);
+            })->get();
+    
+            return view('bibliotecas.add_pessoa', compact('biblioteca', 'pessoas'));
+        }
+  ```
 * **Gargalo Original:** O método `whereDoesntHave` utilizava uma subquery eficiente (`NOT EXISTS`), mas pecava ao tentar dar carga em toda a coleção de pessoas sem critérios de corte.
 * **Solução Implementada:** Restrição cirúrgica de colunas e uso de `take(50)` para limitar o consumo do buffer de rede na renderização de caixas de seleção da interface.
 
 ### 4. `UserController.php`
+* **Consulta Original:**
+  ```sql
+    public function index()
+        {
+            $users = User::all();
+            return view('users.index', compact('users'));
+        }
+  ```
 * **Gargalo Original:** Vulnerabilidade de segurança e desperdício de memória RAM ao trafegar hashes de senhas criptografadas em listagens gerais de usuários.
 * **Solução Implementada:** Isolamento total da coluna `password` nas listagens gerais (`index`, `edit`, `show`) usando projeção seletiva.
 
