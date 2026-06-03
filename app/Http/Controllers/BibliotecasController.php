@@ -22,7 +22,7 @@ class BibliotecasController extends Controller
 
         $query = Biblioteca::select('id', 'nome', 'endereco', 'email', 'created_by')
             ->with(['creator' => function($query) {
-                $query->select('id', 'name'); // Traz estritamente o necessário do usuário criador
+                $query->select('id', 'name');
             }]); 
 
         if ($request->filled('nome')) {
