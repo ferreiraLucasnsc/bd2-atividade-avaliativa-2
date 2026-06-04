@@ -1,81 +1,70 @@
 = ANOTAÇÕES =
 
--> docker compose up -d
-[+] Running
-...
+Tela Inicial:
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+insert into `sessions` (`payload`, `last_activity`, `user_id`, `ip_address`, `user_agent`, `id`) values ('eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwIiwicm91dGUiOm51bGx9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', 1780533863, null, '192.168.65.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0', 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3')
 
-...
-   ✔ eb33bcfe4506 Download complete                                                   9.1s 
-[+] Running 2/2
- ✔ Network bd2-atividade-avaliativa-2_default  Created                                0.1s 
- ✔ Container db                                Started                                5.2s
+Tela Bibliotecas:
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+select * from `bibliotecas` where `nome` like '%%'
+select * from `users` where `users`.`id` = 2 limit 1
+select * from `users` where `users`.`id` = 3 limit 1
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC9iaWJsaW90ZWNhcyIsInJvdXRlIjoiYmlibGlvdGVjYXMuaW5kZXgifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', `last_activity` = 1780533941, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
 
--> cp .env-example .env
-cp: cannot stat '.env-example': No such file or directory
+Tela Criar Nova Biblioteca
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+select * from `users`
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC9iaWJsaW90ZWNhc1wvbmV3Iiwicm91dGUiOiJiaWJsaW90ZWNhcy5jcmVhdGUifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', `last_activity` = 1780533998, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
 
--> cp .env.example .env
-Vazio, criação de novo arquivo
+Tela Biblioteca
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+select * from `users`
+select * from `bibliotecas` where `id` = 1 limit 1
+select `pessoas`.*, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `pessoas` inner join `biblioteca_pessoa` on `pessoas`.`id` = `biblioteca_pessoa`.`pessoa_id` where `biblioteca_pessoa`.`biblioteca_id` = 1
+select `bibliotecas`.*, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `bibliotecas` inner join `biblioteca_pessoa` on `bibliotecas`.`id` = `biblioteca_pessoa`.`biblioteca_id` where `biblioteca_pessoa`.`pessoa_id` = 1
+select `bibliotecas`.*, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `bibliotecas` inner join `biblioteca_pessoa` on `bibliotecas`.`id` = `biblioteca_pessoa`.`biblioteca_id` where `biblioteca_pessoa`.`pessoa_id` = 3
+select `bibliotecas`.*, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `bibliotecas` inner join `biblioteca_pessoa` on `bibliotecas`.`id` = `biblioteca_pessoa`.`biblioteca_id` where `biblioteca_pessoa`.`pessoa_id` = 4
+select `bibliotecas`.*, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `bibliotecas` inner join `biblioteca_pessoa` on `bibliotecas`.`id` = `biblioteca_pessoa`.`biblioteca_id` where `biblioteca_pessoa`.`pessoa_id` = 5
+select `bibliotecas`.*, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `bibliotecas` inner join `biblioteca_pessoa` on `bibliotecas`.`id` = `biblioteca_pessoa`.`biblioteca_id` where `biblioteca_pessoa`.`pessoa_id` = 6
+select `bibliotecas`.*, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `bibliotecas` inner join `biblioteca_pessoa` on `bibliotecas`.`id` = `biblioteca_pessoa`.`biblioteca_id` where `biblioteca_pessoa`.`pessoa_id` = 7
+select `bibliotecas`.*, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `bibliotecas` inner join `biblioteca_pessoa` on `bibliotecas`.`id` = `biblioteca_pessoa`.`biblioteca_id` where `biblioteca_pessoa`.`pessoa_id` = 8
+select `bibliotecas`.*, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `bibliotecas` inner join `biblioteca_pessoa` on `bibliotecas`.`id` = `biblioteca_pessoa`.`biblioteca_id` where `biblioteca_pessoa`.`pessoa_id` = 10
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC9iaWJsaW90ZWNhc1wvZWRpdFwvMSIsInJvdXRlIjoiYmlibGlvdGVjYXMuZWRpdCJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', `last_activity` = 1780534177, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
 
--> composer update --no-cache
-Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
-Loading composer repositories with package information
-Updating dependencies
-Lock file operations: 0 installs, 20 updates, 0 removals
-...
 
-...
-> @php artisan vendor:publish --tag=laravel-assets --ansi --force
-Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+Tela Adicionar Pessoa à Biblioteca
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+select * from `bibliotecas` where `id` = '3' limit 1
+select * from `pessoas` where not exists (select * from `bibliotecas` inner join `biblioteca_pessoa` on `bibliotecas`.`id` = `biblioteca_pessoa`.`biblioteca_id` where `pessoas`.`id` = `biblioteca_pessoa`.`pessoa_id` and `biblioteca_id` = 3)
+select `pessoas`.*, `biblioteca_pessoa`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_pessoa`.`pessoa_id` as `pivot_pessoa_id`, `biblioteca_pessoa`.`created_at` as `pivot_created_at`, `biblioteca_pessoa`.`updated_at` as `pivot_updated_at` from `pessoas` inner join `biblioteca_pessoa` on `pessoas`.`id` = `biblioteca_pessoa`.`pessoa_id` where `biblioteca_pessoa`.`biblioteca_id` = 3
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC9iaWJsaW90ZWNhc1wvM1wvcGVzc29hc1wvYWRkIiwicm91dGUiOiJiaWJsaW90ZWNhcy5wZXNzb2FzLmNyZWF0ZSJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', `last_activity` = 1780534325, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
 
-   INFO  No publishable resources for tag [laravel-assets].  
+Tela Ver Usuários
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+select * from `users`
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC91c2VycyIsInJvdXRlIjoidXNlcnMuaW5kZXgifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', `last_activity` = 1780534404, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
 
-No security vulnerability advisories found.
+Tela Usuário
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+select * from `users` where `users`.`id` = '2' limit 1
+select `bibliotecas`.*, `biblioteca_user`.`user_id` as `pivot_user_id`, `biblioteca_user`.`biblioteca_id` as `pivot_biblioteca_id`, `biblioteca_user`.`role` as `pivot_role` from `bibliotecas` inner join `biblioteca_user` on `bibliotecas`.`id` = `biblioteca_user`.`biblioteca_id` where `biblioteca_user`.`user_id` = 2
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC91c2Vyc1wvMiIsInJvdXRlIjoidXNlcnMuc2hvdyJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', `last_activity` = 1780534426, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
 
--> php artisan key:generate
-Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+Tela Criar Novo Usuário
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC91c2Vyc1wvY3JlYXRlIiwicm91dGUiOiJ1c2Vycy5jcmVhdGUifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', `last_activity` = 1780534465, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
 
-   INFO  Application key set successfully.
+Tela Ver Pessoas
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+select * from `pessoas`
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC9wZXNzb2FzIiwicm91dGUiOiJwZXNzb2FzLmluZGV4In0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfX0=', `last_activity` = 1780534513, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
 
--> php artisan migrate
-Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+Tela Pessoa
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+select * from `pessoas` where `pessoas`.`id` = '1' limit 1
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC9wZXNzb2FzXC8xXC9lZGl0Iiwicm91dGUiOiJwZXNzb2FzLmVkaXQifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==', `last_activity` = 1780534536, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
 
-   WARN  The SQLite database configured for this application does not exist: laravel.  
-
- ┌ Would you like to create it? ────────────────────────────────┐
- │ Yes                                                          │
- └──────────────────────────────────────────────────────────────┘
-
-   INFO  Preparing database.  
-
-  Creating migration table ................................................. 13.38ms DONE
-
-   INFO  Running migrations.  
-
-  0001_01_01_000000_create_users_table ..................................... 29.17ms DONE
-  0001_01_01_000001_create_cache_table ..................................... 78.74ms DONE
-  0001_01_01_000002_create_jobs_table ...................................... 28.41ms DONE
-  2026_05_06_230615_create_bibliotecas_table ............................... 10.16ms DONE
-  2026_05_06_230700_create_biblioteca_user_table ........................... 10.55ms DONE
-  2026_05_06_230800_create_pessoas_table .................................... 9.03ms DONE
-  2026_05_13_224916_create_autores_table .................................... 5.36ms DONE
-  2026_05_13_230132_add_column_to_autores_table ............................. 6.94ms DONE
-  2026_05_20_192439_create_biblioteca_pessoa_table .......................... 5.87ms DONE
-
--> php artisan db:seed
-Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
-
-   INFO  Seeding database.  
-
-  Database\Seeders\BibliotecaAdminSeeder ........................................ RUNNING  
-  Database\Seeders\BibliotecaAdminSeeder .................................... 588 ms DONE  
-
-  Database\Seeders\PessoaBibliotecaSeeder ....................................... RUNNING  
-10 pessoas criadas e associadas a bibliotecas dinamicamente.
-  Database\Seeders\PessoaBibliotecaSeeder ................................. 3,006 ms DONE
-
--> php artisan serve
-Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
-
-   INFO  Server running on [http://127.0.0.1:8000].  
-
-  Press Ctrl+C to stop the server...
+Tela Criar Nova Pessoa
+select * from `sessions` where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3' limit 1
+update `sessions` set `payload` = 'eyJfdG9rZW4iOiJ3V1M4TEdabzEwdkV4RjlvSUlTQ2JCQnhYeGZzUjRUVjVQZnR6VzJMIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDAwXC9wZXNzb2FzXC9jcmVhdGUiLCJyb3V0ZSI6InBlc3NvYXMuY3JlYXRlIn0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfX0=', `last_activity` = 1780534567, `user_id` = null, `ip_address` = '192.168.65.1', `user_agent` = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0' where `id` = 'fEB6HZ0JZF30TNjcU3vyoIbIYQ42MiN53WteWtY3'
