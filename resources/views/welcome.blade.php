@@ -13,6 +13,8 @@
                     <p><a href="{{ route('bibliotecas.index') }}">Ver Bibliotecas</a></p>
                     <p><a href="{{ route('users.index') }}">Ver Usuários</a></p>
                     <p><a href="{{ route('pessoas.index') }}">Ver Pessoas</a></p>
+                    <p><a href="{{ route('autores.index') }}">Ver Autores</a></p>
+                    <p><a href="{{ route('livros.index') }}">Ver Livros</a></p>
                 </div>
             </div>
         </div>
