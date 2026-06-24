@@ -1,0 +1,60 @@
+== PROBLEMAS COMUNS ==
+
+1. PROBLEMA N+1
+Em algumas consultas nas telas "Bibliotecas" e "Biblioteca", o Laravel faz uma consulta principal (a consulta "1") em uma lista de registros, e depois dispara uma nova consulta para buscar o relacionamento de cada item individual (a consulta "N"). Em casos de muitos registros, esta prática derruba o desempenho por estourar o número de requisições e a latência de rede.
+
+2. FALTA DE LIMITAÇÃO
+Nas telas "Criar Nova Biblioteca", "Ver Usuários" e "Ver Pessoas", as consultas "SELECT * FROM [...]" forçam o banco de dados a varrer a tabela inteira e enviar todos os registros para a aplicação. Com isso, o Laravel tenta transformar cada linha do banco em um Model, causando um pico agressivo de uso de memória RAM no servidor da aplicação e lentidão na transferência de dados. Em bancos maiores, a tela pode parar de carregar, pelo estouro do limite de memória do PHP.
+
+3. FULL TABLE SCANS
+Algumas consultas ignoram estratégias de otimização estrutural, forçando o SGBD a ler a tabela linha por linha. O caso do "LIKE '%%'" na tela "Bibliotecas" impede o uso de índices, e o banco procura cada caractere de cada linha. O caso do "NOT EXISTS" na tela "Adicionar Pessoa" faz com que o uso de subqueries faça com que o banco execute a subconsulta para cada linha da tabela.
+
+4. DESPERDÍCIO DE I/O
+Na tela inicial, algumas consultas na tabela "sessions" são executadas duas vezes, desperdiçando tempo e I/O do disco do banco de dados. Adicionalmente, muitas consultas que utilizam "SELECT *" não exibem todos os dados de um registro, consumindo banda desnecessária e impactando a performance.
+
+== SOLUÇÕES ==
+
+1. N+1 -> JOINS
+Ao invés de realizar consultas separadas para os registros relacionados conforme iteração sobre a lista, deve-se utilizar o comando "JOIN" para consolidar a busca, instruindo o SSGBD a retornar os dados necessários em um conjunto.
+
+    Ex.: Consultas originais:
+        SELECT * FROM bibliotecas WHERE id = 1;
+        SELECT * FROM bibliotecas WHERE biblioteca_id = 1;
+
+    ---> Consulta reformulada:
+        SELECT b.*, p.* FROM bibliotecas b
+        JOIN biblioteca_pessoa bp ON b.id = bp.biblioteca_id
+        JOIN pessoas p ON bp.pessoa_id = p.id
+        WHERE b.id = 1;
+
+2. FALTA DE LIMITAÇAO -> PAGINAÇÃO
+Deve-se implementar as cláusulas "LIMIT" e "OFFSET" na consulta para impedir que o banco de dados retorne o conjunto completo da tabela.
+
+    Ex.: Consulta original:
+        SELECT * FROM users;
+
+    ---> Consulta reformulada:
+        SELECT * FROM users 
+        ORDER BY id ASC 
+        LIMIT 15 OFFSET 0;
+
+3. FULL TABLE SCANS -> ÍNDICES E FILTRAGEM
+Para evitar varreduras completas, é necessário criar índices nas colunas de filtro e a remoção de buscas ineficientes.
+
+    Ex.: Consulta original:
+        SELECT * FROM bibliotecas WHERE nome LIKE '%%';
+
+    ---> Consulta reformulada:
+        CREATE INDEX idx_biblioteca_nome ON bibliotecas(nome);
+        SELECT * FROM bibliotecas;
+
+4. DESPERDÍCIO DE I/O -> SELEÇÃO ESPECÍFICA
+Evitar o "*" com a cláusula "SELECT".
+
+    Ex.: Consulta original:
+        SELECT * FROM pessoas WHERE id = 1 LIMIT 1;
+
+    ---> Consulta reformulada:
+        SELECT nome FROM pessoas WHERE id = 1 LIMIT 1;
+
+--> Navegue para o arquivo 'novas_consultas.txt' para ver as consultas reformuladas.
